@@ -7,13 +7,13 @@ var image = new Image();
 image.onload = function(){
     // setup canvas
     var canvas = document.getElementById("myCanvas");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    var imgWidth;
+    var imgHeight;
+    resizeCanvas();
+
     var ctx = canvas.getContext("2d");
     
     // constants
-    const imgWidth = 320;
-    const imgHeight = 163;
     const minDX = 2;
     const minDY = 1;
 
@@ -33,8 +33,12 @@ image.onload = function(){
         // change position
         x += dx;
         y += dy;
-        
     }
+
+    // loop
+    setInterval(draw, 1);
+
+    // other functions
 
     //this causes the image to bounce off the top, bottom, and sides
     function checkCollision(){
@@ -50,14 +54,22 @@ image.onload = function(){
         }
     }
 
-    // loop
-    setInterval(draw, 1);
-
+    // resize canvas
+    function resizeCanvas(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        if(canvas.width < 1000){
+            imgWidth = 100;
+            imgHeight = 51;
+        } else {
+            imgWidth = 320;
+            imgHeight = 163;
+        }
+    }
 
     // override reset function
     reset = function() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        resizeCanvas();
         dx = 2;
         dy = -1;
         x = canvas.width / 2 - (imgWidth/2);
